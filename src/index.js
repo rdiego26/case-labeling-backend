@@ -15,7 +15,7 @@ app.set('port', constants.server.port);
 app.set('title', constants.app.name);
 
 app.use(helmet);
-app.use(bodyParser.json({limit: '1mb'}));
+app.use(bodyParser.json());
 app.use(compression());
 
 
