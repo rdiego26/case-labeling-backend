@@ -1,6 +1,7 @@
 const constants = require('../utils/constants');
 const mongoose = require('mongoose');
 const Condition = require('../models/condition');
+const User = require('../models/user');
 
 async function main() {
   console.info('Started seeder!');
@@ -12,6 +13,11 @@ async function main() {
   await Condition.insertMany(conditionsData);
   console.info(`Loaded ${conditionsData.length} conditions!`);
 
+  await User.deleteMany({});
+  console.info('Users collection cleaned!');
+  await User.insertMany(usersData);
+  console.info(`Loaded ${usersData.length} users!`);
+
   console.info('Finished!');
   process.exit(0);
 
@@ -19,6 +25,11 @@ async function main() {
 
 main().catch(console.error);
 
+const usersData = [{
+  name: 'Dr Joe Smith',
+  email: 'joe.smith@mail.com',
+  password: '12345'
+}];
 const conditionsData = [
   {
     "code": "A09",
