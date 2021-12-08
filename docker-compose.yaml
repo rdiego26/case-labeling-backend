@@ -1,0 +1,14 @@
+version: "3"
+services:
+  app:
+    container_name: case_labeling_backend
+    build: .
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    command: npm run dev
+    volumes:
+      - .:/app/
+      - /app/node_modules
