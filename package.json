@@ -4,6 +4,7 @@
   "description": "Backend for case labeling app",
   "main": "src/index.js",
   "scripts": {
+    "seed": "node src/scripts/seeder.js",
     "dev": "nodemon src/index.js",
     "test": "npm install && mocha test/**/*.js --reporter spec --exit",
     "coverage": "npm install && nyc --reporter=html mocha test/**/*.js --timeout=3000 --exit"
