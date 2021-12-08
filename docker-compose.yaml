@@ -1,9 +1,21 @@
 version: "3"
 services:
+  database:
+    image: "mongo"
+    container_name: case_labeling_database
+    environment:
+      MONGO_INITDB_DATABASE: "erh"
+    ports:
+      - "27017:27017"
   app:
     container_name: case_labeling_backend
     build: .
+    depends_on:
+      - database
+    links:
+      - database
     environment:
+      DATABASE_URI: "mongodb://localhost:27017/erh"
       NODE_ENV: development
       PORT: 3000
     ports:
