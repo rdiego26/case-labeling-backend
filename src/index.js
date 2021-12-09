@@ -7,6 +7,7 @@ const helmet = require('helmet')();
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
+const jsonSchemaValidationMiddleware = require('../src/middlewares/jsonSchemaValidationMiddleware');
 
 const allRoutes = require('./routes/');
 
@@ -23,7 +24,11 @@ app.all('/api/*', cors());
 
 allRoutes(app);
 
-http.createServer(app).listen(app.get('port'), () => {
+// This middleware should be the last
+app.use(jsonSchemaValidationMiddleware);
+
+http.createServer(app).listen(app.get('port'), async() => {
+	await require('./utils/databaseConnection')();
 	console.info(`${app.get('title')} listening on port ${app.get('port')}`);
 });
 
