@@ -15,7 +15,7 @@ services:
     links:
       - database
     environment:
-      DATABASE_URI: "mongodb://localhost:27017/erh"
+      DATABASE_URI: "mongodb://host.docker.internal:27017/erh"
       NODE_ENV: development
       PORT: 3000
     ports:
