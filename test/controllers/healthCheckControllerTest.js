@@ -6,7 +6,7 @@ const appData = require('../../package.json');
 describe('Health Check Controller', () => {
 
 	it('should check the current state API', async () => {
-		const response = await request(app).get('/api/healthCheck');
+		const response = await request(app).get('/healthCheck');
 		assert.ok(response.body?.result === 'I am alive!');
 		assert.ok(response.body?.version === appData.version);
 		assert.ok(response?.statusCode === 200);

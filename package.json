@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "seed": "node src/scripts/seeder.js",
-    "dev": "nodemon src/index.js",
+    "dev": "npm install && nodemon src/index.js",
     "test": "npm install && mocha test/**/*.js --reporter spec --exit",
     "coverage": "npm install && nyc --reporter=html mocha test/**/*.js --timeout=3000 --exit"
   },
@@ -37,7 +37,7 @@
     "express-json-validator-middleware": "^2.2.1",
     "helmet": "^4.6.0",
     "http-status-codes": "^2.1.4",
-    "mongoose": "^6.1.0",
+    "mongoose": "^6.1.1",
     "validator": "^13.7.0"
   },
   "devDependencies": {
