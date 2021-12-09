@@ -28,7 +28,7 @@ allRoutes(app);
 app.use(jsonSchemaValidationMiddleware);
 
 http.createServer(app).listen(app.get('port'), async() => {
-	await require('./utils/databaseConnection')();
+	await require('./utils/poolConnection')();
 	console.info(`${app.get('title')} listening on port ${app.get('port')}`);
 });
 

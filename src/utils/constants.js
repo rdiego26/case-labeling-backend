@@ -4,6 +4,8 @@ const constants = {
 
   database: {
     uri: process.env.DATABASE_URI || 'mongodb://localhost:27017/erh',
+    minPoolSize: process.env.DATABASE_MIN_POOL_SIZE || 3,
+    maxPoolSize: process.env.DATABASE_MAX_POOL_SIZE || 5
   },
 
   app: {
