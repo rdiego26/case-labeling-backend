@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const  { Schema } = mongoose;
 const { isEmail } = require('validator');
-const md5 = require('md5');
+const crypto = require('crypto');
+const AlgorithmEnum = require('../enums/Algorithm');
 
 const userSchema = new Schema({
   name: {
@@ -23,13 +24,17 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', (next) => {
-  this.password = md5(this.password);
+  this.password = crypto
+    .createHmac(AlgorithmEnum.SHA_256, this.password)
+    .digest('hex');
   next();
 });
 
 userSchema.pre('insertMany', (next, docs) => {
   docs.map((doc) => {
-    doc.password = md5(doc.password);
+    doc.password = crypto
+      .createHmac(AlgorithmEnum.SHA_256, doc.password)
+      .digest('hex');
   });
   next();
 });
