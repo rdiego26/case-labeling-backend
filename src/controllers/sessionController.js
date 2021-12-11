@@ -30,13 +30,9 @@ module.exports = {
 
   logout: async (req, res) => {
     try {
-      const { token } = req.body;
+      const token = req.headers['x-access-token'];
 
-      let result = await SessionService.invalidateToken(token);
-
-      if (result?.modifiedCount === 0) {
-        console.log(`Nonexistent token(${token}) provided!`);
-      }
+      await SessionService.invalidateToken(token);
 
       return res.status(StatusCodes.OK).json();
     } catch (error) {

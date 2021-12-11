@@ -7,6 +7,7 @@ const helmet = require('helmet')();
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
+const securityMiddleware = require('../src/middlewares/securityMiddleware');
 const jsonSchemaValidationMiddleware = require('../src/middlewares/jsonSchemaValidationMiddleware');
 
 const allRoutes = require('./routes/');
@@ -21,6 +22,7 @@ app.use(compression());
 
 
 app.all('/api/*', cors());
+app.all('/api/*', securityMiddleware.checkToken);
 
 allRoutes(app);
 

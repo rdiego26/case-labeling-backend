@@ -27,6 +27,33 @@ class SessionService {
     return this.sessionModel
       .updateOne(query, body);
   }
+
+  async findActiveToken(token) {
+    const query = {
+      token,
+      expiresAt: {
+        $gt: dayJs(),
+      },
+    };
+
+    return this.sessionModel
+      .findOne(query);
+  }
+
+  async increment(token) {
+    const query = {
+      token,
+      expiresAt: {
+        $gt: dayJs(),
+      },
+    };
+    const body = {
+      expiresAt: dayJs().add(1, 'hours')
+    };
+
+    return this.sessionModel
+      .updateOne(query, body);
+  }
 }
 
 module.exports = SessionService;
