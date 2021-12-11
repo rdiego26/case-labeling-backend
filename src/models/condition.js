@@ -12,5 +12,5 @@ const conditionSchema = new Schema({
   }
 });
 
-const condition = mongoose.model("condition", conditionSchema, 'Conditions');
+const condition = mongoose.model('condition', conditionSchema, 'Conditions');
 module.exports = condition;

@@ -39,5 +39,5 @@ userSchema.pre('insertMany', (next, docs) => {
   next();
 });
 
-const condition = mongoose.model("user", userSchema, 'Users');
+const condition = mongoose.model('user', userSchema, 'Users');
 module.exports = condition;
