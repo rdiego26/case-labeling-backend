@@ -10,7 +10,7 @@ module.exports = {
       let fetchedUser = await UserService.findWithCredentials(email, password);
 
       if (!fetchedUser) {
-        return res.status(StatusCodes.UNAUTHORIZED);
+        return res.status(StatusCodes.UNAUTHORIZED).json();
       }
 
       const createdSession = await SessionService.create(fetchedUser._id);
@@ -34,11 +34,11 @@ module.exports = {
 
       let result = await SessionService.invalidateToken(token);
 
-      if (!result?.modifiedCount) {
+      if (result?.modifiedCount === 0) {
         console.log(`Nonexistent token(${token}) provided!`);
       }
 
-      return res.status(StatusCodes.OK).end();
+      return res.status(StatusCodes.OK).json();
     } catch (error) {
       console.log(error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);

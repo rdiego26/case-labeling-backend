@@ -25,7 +25,7 @@ class SessionService {
     };
 
     return this.sessionModel
-      .update(query, body);
+      .updateOne(query, body);
   }
 }
 

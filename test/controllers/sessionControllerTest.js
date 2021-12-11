@@ -2,8 +2,11 @@ const request = require('supertest');
 const { StatusCodes } = require('http-status-codes');
 const assert = require('assert');
 const faker = require('faker');
+const sinon = require('sinon');
+const crypto = require('crypto');
 const app = require('../../src/index');
 const UserModel = require('../../src/models/user');
+const SessionModel = require('../../src/models/session');
 
 describe('Session Controller', () => {
 
@@ -17,11 +20,20 @@ describe('Session Controller', () => {
 			password,
 		};
 
+		const mockedSession = {
+			userId: null,
+			token: crypto.randomUUID()
+		};
+
 		before(async() => {
 			await UserModel.insertMany([mockedUser]);
+			const createdUser = await UserModel.findOne({email: mockedUser.email});
+			mockedSession.userId = createdUser._id;
+			await SessionModel.insertMany([mockedSession]);
 		});
 
 		after(async() => {
+			await SessionModel.deleteMany({ userId: mockedUser.userId });
 			await UserModel.deleteMany({ email: mockedUser.email });
 		});
 
@@ -81,6 +93,40 @@ describe('Session Controller', () => {
 
 			assert.ok(response.body?.name === mockedUser.name);
 			assert.ok(response.body?.email === mockedUser.email);
+		});
+
+	});
+
+	describe('Logout', () => {
+		const LOGOUT_PATH = '/api/logout';
+
+		it('should receive bad request when send empty body', async () => {
+			let response = await request(app)
+				.post(LOGOUT_PATH)
+				.send({})
+				.set('Accept', 'application/json')
+				.expect('Content-Type', /json/)
+				.expect(StatusCodes.BAD_REQUEST);
+
+			assert.ok(response.body.errors.length === 1);
+			assert.ok(response.body?.errors[0]?.message === "should have required property 'token'");
+		});
+
+		it('should receive properly result when send a invalid token', async () => {
+			const token = crypto.randomUUID();
+			const consoleLogSpy = sinon.spy(console, 'log');
+
+			let response = await request(app)
+				.post(LOGOUT_PATH)
+				.send({ token })
+				.set('Accept', 'application/json')
+				.expect('Content-Type', /json/)
+				.expect(StatusCodes.OK);
+			const expectedMessage = `Nonexistent token(${token}) provided!`;
+
+			assert.ok(response.body === '');
+			assert(consoleLogSpy.calledWith(expectedMessage));
+			console.log.restore();
 		});
 
 	});
