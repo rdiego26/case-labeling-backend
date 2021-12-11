@@ -28,4 +28,21 @@ module.exports = {
     }
   },
 
+  logout: async (req, res) => {
+    try {
+      const { token } = req.body;
+
+      let result = await SessionService.invalidateToken(token);
+
+      if (!result?.modifiedCount) {
+        console.log(`Nonexistent token(${token}) provided!`);
+      }
+
+      return res.status(StatusCodes.OK).end();
+    } catch (error) {
+      console.log(error);
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(error);
+    }
+  },
+
 };

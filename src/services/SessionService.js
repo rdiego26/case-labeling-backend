@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const dayJs = require('dayjs');
 
 class SessionService {
   constructor(sessionModel) {
@@ -13,6 +14,18 @@ class SessionService {
 
     return this.sessionModel
       .create(item);
+  }
+
+  async invalidateToken(token) {
+    const query = {
+      token,
+    };
+    const body = {
+      expiresAt: dayJs(),
+    };
+
+    return this.sessionModel
+      .update(query, body);
   }
 }
 
