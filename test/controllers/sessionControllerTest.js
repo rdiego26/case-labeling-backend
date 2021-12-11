@@ -3,10 +3,28 @@ const { StatusCodes } = require('http-status-codes');
 const assert = require('assert');
 const faker = require('faker');
 const app = require('../../src/index');
+const UserModel = require('../../src/models/user');
 
 describe('Session Controller', () => {
 
 	describe('Login', () => {
+		const email = faker.internet.email().toLowerCase();
+		const password = faker.internet.password();
+
+		const mockedUser = {
+			name: faker.name.findName(),
+			email,
+			password,
+		};
+
+		before(async() => {
+			await UserModel.insertMany([mockedUser]);
+		});
+
+		after(async() => {
+			await UserModel.deleteMany({ email: mockedUser.email });
+		});
+
 		const LOGIN_PATH = '/api/login';
 
 		it('should receive bad request when send empty body', async () => {
@@ -51,6 +69,18 @@ describe('Session Controller', () => {
 				.expect('Content-Type', /json/)
 				.expect(StatusCodes.UNAUTHORIZED);
 
+		});
+
+		it('should receive properly response when send valid data', async () => {
+			let response = await request(app)
+				.post(LOGIN_PATH)
+				.send({ email: mockedUser.email, password: password })
+				.set('Accept', 'application/json')
+				.expect('Content-Type', /json/)
+				.expect(StatusCodes.OK);
+
+			assert.ok(response.body?.name === mockedUser.name);
+			assert.ok(response.body?.email === mockedUser.email);
 		});
 
 	});

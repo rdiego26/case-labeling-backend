@@ -5,8 +5,7 @@ module.exports = {
 
   findByCredentials: async (req, res) => {
     try {
-      const email = req.body.email || '';
-      const password = req.body.password || '';
+      const { email, password } = req.body;
 
       let fetchedUser = await UserService.findWithCredentials(email, password);
       const code = fetchedUser ? StatusCodes.OK : StatusCodes.UNAUTHORIZED;
