@@ -1,5 +1,5 @@
 # case-labeling-backend
-Backend for EHR case labeling.
+Backend for [EHR case labeling](https://github.com/rdiego26/case-labeling-frontend).
 
 ![EHR](https://belitsoft.com/uploads/images/blog/posts/previews/image_155930182239.jpg)
 
@@ -15,4 +15,14 @@ Backend for EHR case labeling.
 ---
 
 # Considerations / Next Improvements / Questions
-- .....
+- Solution
+  - Implement some mechanism to "lock" the case while user are labeling, to prevent other user get the same case
+  - Implement some mechanism(maybe [RBAC](https://en.wikipedia.org/wiki/Role-based_access_control)) to better control about the permissions(some doctors should see cases from our patients, etc)
+- Arch
+  - Migrate to Nest.js
+  - Implement typescript (and remove json schema)
+- Considerations for production
+  - Integrate with some log aggregation tool, like [Humio](https://www.humio.com/) or [Splunk](https://www.splunk.com/)
+  - Implement migration to better control about the database structure changes
+  - Integrate with some APM tool, like [New Relic](https://newrelic.com/) or [DataDog](https://www.datadoghq.com/)
+  - Implement a CI/CD workflow
