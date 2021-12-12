@@ -12,8 +12,6 @@ Backend for [EHR case labeling](https://github.com/rdiego26/case-labeling-fronte
 - Generate coverage report: `docker-compose run app npm run coverage`
 - Run tests: `docker-compose run app npm test`
 
----
-
 # Considerations / Next Improvements / Questions
 - Solution
   - Implement some mechanism to "lock" the case while user are labeling, to prevent other user get the same case
