@@ -24,3 +24,5 @@ Backend for [EHR case labeling](https://github.com/rdiego26/case-labeling-fronte
   - Implement migration to better control about the database structure changes
   - Integrate with some APM tool, like [New Relic](https://newrelic.com/) or [DataDog](https://www.datadoghq.com/)
   - Implement a CI/CD workflow
+- Question
+  - During labeling I allowed the doctor change the description(but if it's wrong, we can update the code)
