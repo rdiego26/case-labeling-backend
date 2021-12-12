@@ -99,12 +99,14 @@ describe('Session Controller', () => {
 		const LOGOUT_PATH = '/api/logout';
 
 		it('should receive unauthorized when send nonexistent token', async () => {
-			await request(app)
+			let response = await request(app)
 				.post(LOGOUT_PATH)
 				.set('Accept', 'application/json')
 				.set('x-access-token', faker.datatype.uuid())
 				.expect('Content-Type', /json/)
 				.expect(StatusCodes.UNAUTHORIZED);
+
+			assert.ok(response.body?.message === 'Session expired!');
 		});
 
 		it('should receive ok when send existent token', async () => {
