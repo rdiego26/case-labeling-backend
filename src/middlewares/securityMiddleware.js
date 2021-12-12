@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const sessionServiceInstance = require('../services').SessionService;
+const { SessionService, UserService } = require('../services');
 
 const PUBLIC_ROUTES = ['/api/login'];
 
@@ -15,14 +15,15 @@ module.exports = {
         message: 'Missing token!'
       });
     } else {
-      const fetchedData = await sessionServiceInstance.findActiveToken(token);
+      const fetchedSession = await SessionService.findActiveToken(token);
 
-      if (!fetchedData) {
+      if (!fetchedSession) {
         res.status(StatusCodes.UNAUTHORIZED).json({
           message: 'Session expired!'
         });
       } else {
-        await sessionServiceInstance.increment(fetchedData.token);
+        req._user = await UserService.findById(fetchedSession.userId);
+        await SessionService.increment(fetchedSession.token);
         next();
       }
     }
