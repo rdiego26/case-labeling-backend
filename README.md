@@ -16,6 +16,7 @@ Backend for [EHR case labeling](https://github.com/rdiego26/case-labeling-fronte
 - Solution
   - Implement some mechanism to "lock" the case while user are labeling, to prevent other user get the same case
   - Implement some mechanism(maybe [RBAC](https://en.wikipedia.org/wiki/Role-based_access_control)) to better control about the permissions(some doctors should see cases from our patients, etc)
+  - Add more test cases 
 - Arch
   - Migrate to Nest.js
   - Implement typescript (and remove json schema)
